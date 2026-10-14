@@ -24,6 +24,24 @@ The build creates `dist/` with 21 page routes and a 404 page. Dependencies are p
 
 The repository contains source and all imagery. Generated build output and installed dependencies are excluded from Git; the hosting provider builds them from the source.
 
+### Cloudflare Workers
+
+Connect this repository in Workers & Pages and use the repository root with production branch `main`.
+
+| Setting | Value |
+| --- | --- |
+| Build command | `npm run build` |
+| Deploy command | `npx wrangler deploy` |
+| Preview command | `npx wrangler versions upload` |
+
+The committed `wrangler.jsonc` supplies the Worker name `chromastic`, compatibility date, static asset directory and routing behavior. Production and preview commands both read this file. Existing commands with `--assets ./dist --name chromastic` also work with this configuration.
+
+After a successful deployment, add your domain under the Worker's Settings > Domains & Routes. Follow Cloudflare's domain verification and DNS instructions for your account.
+
+Official references: [Workers Builds configuration](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/), [compatibility dates](https://developers.cloudflare.com/workers/configuration/compatibility-dates/) and [custom domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/).
+
+### Vercel and other static hosts
+
 For Vercel, import this GitHub repository as a new project. The included `vercel.json` sets the Vite framework, `npm run build` command and `dist` output directory. Use the repository root as the project root.
 
 After deployment, add your domain in the project's domain settings and apply the DNS records Vercel shows at your domain registrar. Use the actual records shown for your project.
@@ -50,6 +68,7 @@ Serve the generated route directories and their `index.html` files. Keep the dom
 - `public/assets/`: production WebP product renders and favicon.
 - `source-assets/`: original PNG renders and generation notes.
 - `scripts/prepare-routes.mjs`: generated static route shells and page titles.
+- `wrangler.jsonc`: Cloudflare Workers deployment configuration.
 - `design-research-v2.md`: visual research behind the current design.
 
 ## Current functionality
